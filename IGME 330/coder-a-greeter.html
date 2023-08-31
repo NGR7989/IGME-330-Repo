@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Greeter</title>
+    <link href="@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@200&display=swap');">
+    <style>
+      *{font-size:1.5em;}
+
+      body
+      {
+        font-family: 'Roboto Mono', monospace;
+      }
+
+      #btn-hello
+      {
+        height: 50px;
+        width: 150px;
+        font-size: 14pt;
+      }
+
+      @media only screen and (min-width:1024px)
+      {
+        body
+        {
+            background-color: red;
+            padding: 100px;
+        }
+      }
+    </style>
+    
+    <script>
+        "use strict";
+        
+        window.onload = function()
+        {
+            const output = document.querySelector("#output");
+            output.style.color = "red";
+            output.style.backgroundColor = "yellow";
+
+
+            // 1 - get a reference to the button
+            const button = document.querySelector("#btn-hello");
+            console.log(button);
+        
+            // 2 - add a click event to button that calls a `sayHello` function
+            button.onclick = sayHello;
+        
+            // 3 - create a `sayHello()` function
+            function sayHello()
+            {
+                console.log("hello");
+        
+                // 3A - get name of person from the <input>
+                let name = document.querySelector("#input-firstname").value.trim() || "Null";
+
+                // 3B - get a reference to the #output <p>
+                const output = document.querySelector("#output");
+                    
+                // 3C - update HTML of #output <p>
+                output.innerHTML = `Hello ${name}`;
+        
+            }
+        };
+
+        
+    </script>
+  </head>
+<body>
+  <button id="btn-hello">Click Me!</button>
+  <input id="input-firstname" placeholder="Type in your name">
+  <p id="output">???</p>
+</body>
+
+
+
+</html>
