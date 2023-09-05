@@ -44,8 +44,8 @@
             const buttonG = document.querySelector("#btn-goodbye");
 
             // Events call the special little function  
-            buttonH.addEventListener('click', (event) => greet("hello")); 
-            buttonG.addEventListener('click', (event) => greet("goodbye"));
+            buttonH.addEventListener('click', () => greet("hello")); 
+            buttonG.addEventListener('click', () => greet("goodbye"));
 
             function greet(greeting)
             {
@@ -70,7 +70,8 @@
     </script>
   </head>
 <body>
-  <button id="btn-hello">Say Hello</button> <button id="btn-goodbye">Say Goodbye</button>
+  <button id="btn-hello">Say Hello</button> 
+  <button id="btn-goodbye">Say Goodbye</button>
   <br>
   <input id="input-firstname" placeholder=  "Type in your first name" >
   <input id="input-lastname" placeholder=   "Type in your last name"  >
