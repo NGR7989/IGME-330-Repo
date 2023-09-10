@@ -32,7 +32,7 @@
     <script>
         "use strict";
         
-        window.onload = function()
+        window.onload = () =>
         {
             const output = document.querySelector("#output");
             output.style.color = "red";
@@ -42,27 +42,27 @@
             // 1 - get a reference to the button
             const buttonH = document.querySelector("#btn-hello");
             const buttonG = document.querySelector("#btn-goodbye");
+            const shoutifyCheck = document.querySelector("#shoutify");
 
-            // Events call the special little function  
-            buttonH.addEventListener('click', () => greet("hello")); 
-            buttonG.addEventListener('click', () => greet("goodbye"));
-
-            function greet(greeting)
+            const greet = (greeting) =>
             {
-                console.log(greeting);
+                console.log(shoutifyCheck.checked);
+                
         
                 // 3A - get name of person from the <input>
                 let firstName = document.querySelector("#input-firstname").value.trim() || "Peter";
                 let lastName = document.querySelector("#input-lastname").value.trim() || "Parker";
-
                 // 3B - get a reference to the #output <p>
                 const output = document.querySelector("#output");
                     
                 // 3C - update HTML of #output <p>
-                output.innerHTML = `${greeting} ${firstName} ${lastName}`;
-        
+                let outputText = `${greeting} ${firstName} ${lastName}`;
+                output.innerHTML = shoutifyCheck.checked ? outputText.toUpperCase() : outputText;
             }
 
+            // Events call the special little function  
+            buttonH.addEventListener('click', () => greet("hello")); 
+            buttonG.addEventListener('click', () => greet("goodbye"));
             
         };
 
@@ -72,13 +72,10 @@
 <body>
   <button id="btn-hello">Say Hello</button> 
   <button id="btn-goodbye">Say Goodbye</button>
-  <input type="checkbox" name="SHOUTIFY" /> <label for="SHOUTIFY">SHOUTIFY</label>
+  <input  id ="shoutify" type="checkbox" name="SHOUTIFY" /> <label for="SHOUTIFY">SHOUTIFY</label>
   <br>
   <input id="input-firstname" placeholder=  "Type in your first name" >
   <input id="input-lastname" placeholder=   "Type in your last name"  >
   <p id="output">???</p>
 </body>
-
-
-
 </html>
