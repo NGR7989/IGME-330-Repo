@@ -12,8 +12,8 @@
 
 </head>
 <body>
-	<h2>XHR - Load XML</h2>
-	<p>The <code>pet-names.txt</code> file contains popular dog and cat pet names, separated by commas.</p>
+	<h2>XHR - Load JSON</h2>
+	<p>The <code>pet-names.json</code> file contains popular dog and cat pet names, separated by commas.</p>
 	<p>Note that because XHR is loading a local file, this and the other examples will have to be run off a web server rather than from your computer's hard drive (e.g. banjo.rit.edu or VSCode's liveserver etc)</p>
 	
 	<hr>
@@ -33,9 +33,19 @@
             console.log(`In onload - HTTP Status Code = ${e.target.status}`);
             const text = e.target.responseText;
             let json;
+            let html = "";
+
             try
             {
                 json = JSON.parse(text);
+
+                const keys = Object.keys(json);
+                for(let k of keys)
+                {
+                    const obj = json[k];
+                    html += `<h3>${obj.title = obj.title ? obj.title : "No title found"}</h3>`
+                    html += `<ol>${obj["namelist"].map(w => `<li>${w}</li>`).join("")}</ol>`;
+                }
             }
             catch
             {
@@ -43,24 +53,6 @@
                 return;
             }
 
-            // const xml = e.target.responseXML;
-            // if(!xml)
-            // {
-            //     document.querySelector("#output").innerHTML = "XML is null";
-            //     return;
-            // }
-            const dogNames = json.dognames;
-            const catNames = json.catnames;
-
-            const dogHtml = `<ol>${dogNames.map(w => `<li>${w}</li>`).join("")}</ol>`;
-            const catHtml = `<ol>${catNames.map(w => `<li>${w}</li>`).join("")}</ol>`;
-
-            const html = `
-                <h3>Dog Names</h3>
-                ${dogHtml}
-                <h3>Cat Names</h3>
-                ${catHtml}
-            `;
 
             document.querySelector("#output").innerHTML = html;
         };
