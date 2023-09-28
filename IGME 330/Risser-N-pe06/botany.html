@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Sine Start</title>
+	<style>canvas{ border: 1px solid black; }</style>
+	<script>
+	"use strict";
+	const canvasWidth = 400, canvasHeight = 300;
+	let ctx;
+    let n = 0;
+    let divergence = 137.6;
+    let c = 3;
+
+    let petalSize = 0.1;
+    window.onload = init;
+
+	function init(){
+		ctx = canvas.getContext("2d");
+		canvas.width = canvasWidth;
+		canvas.height = canvasHeight;
+		ctx.fillRect(0,0,canvasWidth,canvasHeight);
+
+        loop();
+	}
+
+
+    function loop()
+    {
+        setTimeout(loop,1000/60);
+
+        // each frame draw a new dot
+        // `a` is the angle
+        // `r` is the radius from the center (e.g. "Pole") of the flower
+        // `c` is the "padding/spacing" between the dots
+        let a = n * dtr(divergence);
+        let r = c * Math.sqrt(n);
+
+        // now calculate the `x` and `y`
+        let x = r * Math.cos(a) + canvasWidth/2;
+        let y = r * Math.sin(a) + canvasHeight/2;
+        //console.log(x,y);
+
+        // let aDegrees = (n * divergence) % 256;
+        // let color = `rgb(${aDegrees},0,255)`;
+
+        let color = `rgb(${n % 256},0,255)`;
+
+        //let color = `hsl(${n/5 % 361},100%,50%)`;
+        
+        drawCircle(ctx,x,y,petalSize,color);
+        petalSize += 0.01;
+        c += 0.03;
+        divergence += 0.04;
+        n++;
+
+        if(n >= 400)
+        {
+            n = 0;
+            c = Math.random() * 0.5;
+            petalSize = Math.random() * 5;
+
+            divergence = Math.random() * 2.0;
+        }
+    }
+
+	// helpers
+	function dtr(degrees){
+		return degrees * (Math.PI/180);
+	}
+
+	function drawCircle(ctx,x,y,radius,color){
+		ctx.save();
+		ctx.fillStyle = color;
+		ctx.beginPath();
+		ctx.arc(x,y,radius,0,Math.PI * 2);
+		ctx.closePath();
+		ctx.fill();
+		ctx.restore();
+	}
+
+
+	</script>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+
+</body>
+</html>
