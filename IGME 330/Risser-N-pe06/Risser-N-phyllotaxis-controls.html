@@ -21,9 +21,16 @@
 		canvas.height = canvasHeight;
 		ctx.fillRect(0,0,canvasWidth,canvasHeight);
 
+        document.querySelector("#btn-restart").onclick = function()
+        {
+            n = 0;
+            divergence = parseInt(document.querySelector("#ctrl-divergence").value);
+            petalSize = 0.1;
+            c = 3;
+        };
+
         loop();
 	}
-
 
     function loop()
     {
@@ -41,20 +48,15 @@
         let y = r * Math.sin(a) + canvasHeight/2;
         //console.log(x,y);
 
-        // let aDegrees = (n * divergence) % 256;
-        // let color = `rgb(${aDegrees},0,255)`;
-
         let color = `rgb(${n % 256},0,255)`;
 
-        //let color = `hsl(${n/5 % 361},100%,50%)`;
-        
         drawCircle(ctx,x,y,petalSize,color);
         petalSize += 0.01;
         c += 0.03;
         divergence += 0.04;
         n++;
 
-        if(n >= 400)
+        if(n >= 400) // Goes up to 400 times before resetting with random values 
         {
             n = 0;
             c = Math.random() * 0.5;
@@ -79,11 +81,33 @@
 		ctx.restore();
 	}
 
+    
 
 	</script>
 </head>
 <body>
 <canvas id="canvas"></canvas>
+
+<div id="controls">
+	<label>Divergence Angle</label>
+	<select id="ctrl-divergence">
+		<option value="137.1">137.1</option>
+		<option value="137.3">137.3</option>
+		<option value="137.5" selected>137.5</option>
+		<option value="137.7">137.7</option>
+		<option value="137.7">137.9</option>
+	</select>
+	<button id="btn-restart">Restart App</button>
+</div>
+<div>
+    <ul>
+        <li>The size, color, and divergence, changes over time</li>
+        <li>Goes up to 400 times before resetting with random values </li>
+        <li>The resetart button resets all values to their original states except the divergence which is set to the drop down's value</li>
+      </ul>
+    
+    
+</div>
 
 </body>
 </html>
