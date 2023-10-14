@@ -54,13 +54,15 @@
 			ctx.restore();
 			
 			ctx.save();
+			ctx.rotate(Math.PI/6 + change / 2);
+
 			// set a bunch of state attributes
 			ctx.shadowOffsetX = 15;
 			ctx.shadowOffsetY = 15;
 			ctx.shadowColor = "rgba(153,50,204,.6)";
 			ctx.shadowBlur = 5;
 		
-		
+		  
 			// draw square with fillRect() convenience method
 			ctx.fillStyle="green";
 			ctx.fillRect(100,100,100,100);
@@ -74,7 +76,10 @@
 			ctx.fill();
 			
 			
-		
+			ctx.save();
+
+			ctx.rotate(Math.PI/6 + change / 2);
+
 			// draw a triangle
 			ctx.strokeStyle="red";
 			ctx.fillStyle="red";
@@ -85,14 +90,16 @@
 			ctx.lineTo(450,200);
 			ctx.closePath();
 			ctx.stroke();
+			ctx.restore();
 			
 			drawSquare2(ctx,200,100,100,100,Math.PI/4.0,"purple",0.75);
 			drawSquare2(ctx,350,100,100,100,Math.PI/4.0,"purple",1.0);
 			drawSquare2(ctx,500,100,100,100,Math.PI/4.0,"purple",1.25);
+
+			drawTriangle(ctx, 100, 100, Math.PI/4.0 + change, "blue", 1);
+			drawSquare2(ctx, 300, 300, 100, 300 * Math.sin(change) + 10, -change / 2, "green", 0.5);
 		}
 		
-		
-
 		function drawSquare2(ctx,x,y,width,height,rotation,fillStyle,scale){
 		ctx.save();  // save the old state attributes
 		ctx.fillStyle=fillStyle;
@@ -101,6 +108,26 @@
 		ctx.scale(scale, scale);
 		// now we'll draw from the center to get the rotation right
 		ctx.fillRect(0-width/2, 0-height/2, width, height);
+		ctx.restore(); 
+		// the old state attributes are restored, ctx is 
+		// as it was before this function was called
+		}
+
+		function drawTriangle(ctx,x,y,rotation,strokeStyle,scale){
+		ctx.save();  // save the old state attributes
+		ctx.strokeStyle=strokeStyle;
+		ctx.translate(x, y);
+		ctx.rotate(rotation);
+		ctx.scale(scale, scale);
+		// now we'll draw from the center to get the rotation right
+			
+		ctx.beginPath();
+		ctx.moveTo(0,-50);
+		ctx.lineTo(50,50);
+		ctx.lineTo(-50,50);
+		ctx.closePath();
+		ctx.stroke();
+
 		ctx.restore(); 
 		// the old state attributes are restored, ctx is 
 		// as it was before this function was called
