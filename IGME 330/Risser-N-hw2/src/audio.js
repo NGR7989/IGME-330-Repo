@@ -15,6 +15,91 @@ const DEFAULTS = Object.freeze({
 // this is a typed array to hold the audio frequency data
 let audioData = new Uint8Array(DEFAULTS.numSamples /2 );
 
+let biquadFilterHigh;
+let biquadFilterLow;
+let highshelf = false;
+let lowshelf = false;
+
+let distortionFilter;
+let distortion = false;
+let distortionAmount = 20;
+
+
+
+function toggleHighshelf(){
+    if(highshelf){
+        biquadFilterHigh.frequency.setValueAtTime(1000, audioCtx.currentTime); // we created the `biquadFilter` (i.e. "treble") node last time
+        biquadFilterHigh.gain.setValueAtTime(25, audioCtx.currentTime);
+    }else{
+        biquadFilterHigh.gain.setValueAtTime(0, audioCtx.currentTime);
+    }
+}
+
+function toggleLowshelf(){
+    if(lowshelf){
+        biquadFilterLow.frequency.setValueAtTime(1000, audioCtx.currentTime);
+        biquadFilterLow.gain.setValueAtTime(15, audioCtx.currentTime);
+    }else{
+        biquadFilterLow.gain.setValueAtTime(0, audioCtx.currentTime);
+    }
+}
+
+function toggleDistortion(){
+    if(distortion){
+      distortionFilter.curve = null; // being paranoid and trying to trigger garbage collection
+      distortionFilter.curve = makeDistortionCurve(distortionAmount);
+    }else{
+      distortionFilter.curve = null;
+    }
+  }
+  
+  // from: https://developer.mozilla.org/en-US/docs/Web/API/WaveShaperNode
+  function makeDistortionCurve(amount=20) {
+    let n_samples = 256, curve = new Float32Array(n_samples);
+    for (let i =0 ; i < n_samples; ++i ) {
+      let x = i * 2 / n_samples - 1;
+      curve[i] = (Math.PI + amount) * x / (Math.PI + amount * Math.abs(x));
+    }
+    return curve;
+  }
+
+
+function setupUI(){
+// I. set the initial state of the high shelf checkbox
+document.querySelector('#cb-highshelf').checked = highshelf; // `highshelf` is a boolean we will declare in a second
+
+// II. change the value of `highshelf` every time the high shelf checkbox changes state
+document.querySelector('#cb-highshelf').onchange = e => {
+    highshelf = e.target.checked;
+    toggleHighshelf(); // turn on or turn off the filter, depending on the value of `highshelf`!
+};
+
+document.querySelector('#cb-lowshelf').onchange = e => {
+    lowshelf = e.target.checked;
+    toggleLowshelf(); // turn on or turn off the filter, depending on the value of `highshelf`!
+};
+
+// III. 
+toggleHighshelf(); // when the app starts up, turn on or turn off the filter, depending on the value of `highshelf`!
+
+
+document.querySelector("#cb-distortion").onchange = e =>
+{
+    distortion = e.target.checked;
+    toggleDistortion();
+}
+document.querySelector('#slider-distortion').value = distortionAmount;
+document.querySelector('#slider-distortion').onchange = e => {
+  distortionAmount = Number(e.target.value);
+  toggleDistortion();
+};
+}
+
+
+
+
+
+
 // **Next are "public" methods - we are going to export all of these at the bottom of this file**
 const setupWebaudio = (filePath) => {
     // 1 - The || is because WebAudio has not been standardized across browsers yet
@@ -34,15 +119,30 @@ const setupWebaudio = (filePath) => {
     // note the UK spelling of "Analyser"
     analyserNode = audioCtx.createAnalyser();
     
+
+    biquadFilterHigh = audioCtx.createBiquadFilter();
+    biquadFilterHigh.type = "highshelf";
+
+    biquadFilterLow = audioCtx.createBiquadFilter();
+    biquadFilterLow.type = "lowshelf";
+
+   distortionFilter = audioCtx.createWaveShaper();
+
+
     /*
     // 6
     We will request DEFAULTS.numSamples number of samples or "bins" spaced equally 
     across the sound spectrum.
+    
 
     If DEFAULTS.numSamples (fftSize) is 256, then the first bin is 0 Hz, the second is 172 Hz, 
     the third is 344Hz, and so on. Each bin contains a number between 0-255 representing 
     the amplitude of that frequency.
     */ 
+   sourceNode.connect(biquadFilterHigh);
+   biquadFilterHigh.connect(biquadFilterLow);
+   biquadFilterLow.connect(distortionFilter);
+   distortionFilter.connect(analyserNode);
 
     // fft stands for Fast Fourier Transform
     analyserNode.fftSize = DEFAULTS.numSamples;
@@ -55,6 +155,8 @@ const setupWebaudio = (filePath) => {
     sourceNode.connect(analyserNode);
     analyserNode.connect(gainNode);
     gainNode.connect(audioCtx.destination);
+
+    setupUI();
 }
 // make sure that it's a Number rather than a String
 
@@ -74,5 +176,7 @@ const setVolume = (value) =>{
     value = Number(value);
     gainNode.gain.value = value;
 }
+
+
 
 export{audioCtx, setupWebaudio, playCurrentSound, pauseCurrentSound, loadSoundFile, setVolume, analyserNode};

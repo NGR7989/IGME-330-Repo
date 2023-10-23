@@ -13,7 +13,7 @@ let ctx,canvasWidth,canvasHeight,gradient,analyserNode,audioData;
 let botWidth = 120;
 let avgHeight = 0;
 
-function getRandomColor()
+const getRandomColor= () =>
 	{
 		function getByte(){
 			return 55 + Math.round(Math.random() * 200);
@@ -33,11 +33,9 @@ const setupCanvas = (canvasElement,analyserNodeRef) => {
 	analyserNode = analyserNodeRef;
 	// this is the array where the analyser data will be stored
 	audioData = new Uint8Array(analyserNode.fftSize/2);
-
-    
 }
 
-function drawRect(ctx,x,y,width,height,fillStyle="black",lineWidth=0,strokeStyle="black")
+const drawRect = (ctx,x,y,width,height,fillStyle="black",lineWidth=0,strokeStyle="black") =>
 	{
 		ctx.save();
 		ctx.beginPath();
