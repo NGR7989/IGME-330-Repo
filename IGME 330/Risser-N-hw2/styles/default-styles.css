@@ -33,7 +33,7 @@ body {
   }
   
   button[data-playing="no"]:after{
-    content: "Play";
+    content: "Pl/Pa";
   }
   
   #fsButton{

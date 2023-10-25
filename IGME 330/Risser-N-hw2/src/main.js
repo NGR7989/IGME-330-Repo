@@ -28,7 +28,9 @@ const DEFAULTS = Object.freeze({
 
 const loop = () => {
   /* NOTE: This is temporary testing code that we will delete in Part II */
-    requestAnimationFrame(loop);
+    //requestAnimationFrame(loop);
+
+    setTimeout(loop, 1000 / 60);
     canvas.draw(drawParams);
 
   // Old debug information below 
@@ -59,6 +61,30 @@ const loop = () => {
       // console.log("---------------------");
   }
 
+
+  const loadJson = () =>
+{
+    const url = "data/av-data.json";
+    const xhr = new XMLHttpRequest();
+    xhr.onload = (e) =>
+    {
+        console.log(`In onload - HTTP Status Code = ${e.target.status}`);
+        const text = e.target.responseText;
+        let json = JSON.parse(text);
+        
+        let title = json["title"];
+        let songTitle = json["songTitles"];
+        let instruct = json["funky"];
+
+        document.querySelector("#title").innerHTML = title;
+        document.querySelector("#desc").innerHTML = instruct;
+    }
+
+    xhr.onerror = e => console.log(`In onerror - HTTP Status Code = ${e.target.status}`);
+    xhr.open("GET", url);
+    xhr.send();
+}
+
 const setupUI = (canvasElement) => {
   // A - hookup fullscreen button
   const fsButton = document.querySelector("#fs-button");
@@ -79,6 +105,12 @@ const setupUI = (canvasElement) => {
       audio.audioCtx.resume();
     }
 
+    if(audio.audioCtx.state == "running")
+    {
+      audio.audioCtx.suspend();
+      playButton.content = "no";
+    }
+
     if(e.target.dataset.playing == "no")
     {
       audio.playCurrentSound();
@@ -87,7 +119,7 @@ const setupUI = (canvasElement) => {
     else
     {
       audio.pauseCurrentSound();
-      e.target.dataset.playing = "no";
+      e.target.dataset.playButton = "no";
     }
   }
 
@@ -139,6 +171,8 @@ const setupUI = (canvasElement) => {
   btnEmboss.onclick = () => {
     drawParams.showEmboss = btnEmboss.checked;
   };
+
+  loadJson();
 } // end setupUI
 
 

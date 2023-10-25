@@ -24,9 +24,10 @@ let distortionFilter;
 let distortion = false;
 let distortionAmount = 20;
 
+let volumeSlider;
+let volumeLabel;
 
-
-function toggleHighshelf(){
+const toggleHighshelf = () =>{
     if(highshelf){
         biquadFilterHigh.frequency.setValueAtTime(1000, audioCtx.currentTime); // we created the `biquadFilter` (i.e. "treble") node last time
         biquadFilterHigh.gain.setValueAtTime(25, audioCtx.currentTime);
@@ -35,7 +36,7 @@ function toggleHighshelf(){
     }
 }
 
-function toggleLowshelf(){
+const toggleLowshelf=()=>{
     if(lowshelf){
         biquadFilterLow.frequency.setValueAtTime(1000, audioCtx.currentTime);
         biquadFilterLow.gain.setValueAtTime(15, audioCtx.currentTime);
@@ -44,7 +45,7 @@ function toggleLowshelf(){
     }
 }
 
-function toggleDistortion(){
+const toggleDistortion= ()=>{
     if(distortion){
       distortionFilter.curve = null; // being paranoid and trying to trigger garbage collection
       distortionFilter.curve = makeDistortionCurve(distortionAmount);
@@ -54,7 +55,7 @@ function toggleDistortion(){
   }
   
   // from: https://developer.mozilla.org/en-US/docs/Web/API/WaveShaperNode
-  function makeDistortionCurve(amount=20) {
+  const makeDistortionCurve = (amount=20) => {
     let n_samples = 256, curve = new Float32Array(n_samples);
     for (let i =0 ; i < n_samples; ++i ) {
       let x = i * 2 / n_samples - 1;
@@ -64,7 +65,7 @@ function toggleDistortion(){
   }
 
 
-function setupUI(){
+  const setupUI=()=>{
 // I. set the initial state of the high shelf checkbox
 document.querySelector('#cb-highshelf').checked = highshelf; // `highshelf` is a boolean we will declare in a second
 
@@ -93,6 +94,18 @@ document.querySelector('#slider-distortion').onchange = e => {
   distortionAmount = Number(e.target.value);
   toggleDistortion();
 };
+
+
+volumeSlider = document.querySelector("#slider-volume");
+volumeLabel = document.querySelector("#label-volume");
+
+volumeSlider.oninput = e =>
+{
+    gainNode.setValueAtTime = (e.target.value, audioCtx.currentTime);
+    volumeLabel.innerHTML = Math.round((e.target.value / 2 * 100));
+}
+
+volumeSlider.dispatchEvent(new Event("input"));
 }
 
 

@@ -1,0 +1,11 @@
+II. Tell us about the 2 Audio Effect nodes you added to the audio routing graph
+The audio effects added where the lowshelf and highself filters that increase volume based on frequency of the audio.
+
+III. Tell us your Sprite's class name, what it looks like/what it does in the visualization
+The added sprite was simply a rect as the entire robot could be made up of these. To visualize this the head of the robot moves up and down with the audio in my attempt to immitate it trying to "speak". 
+
+IV. Tell us what app data you put in your av-data.json file
+Gives us the title, the song titles, and that the head is meant to be animated 
+
+V. Tell us how you improved the aesthetics of the app over the AV HW:
+Frankly I believe that I deserve a 10% on this. I did not end up editing the controls outside of the canvas which is what takes away from the score. I did however try my best in order to make the display of the audio to be kind of interesting by using a robot that would move its upper head up and down. This was a siginificant change from the previous assignmenet but due to the control's being not as good as I'd like I take my score down that much.
