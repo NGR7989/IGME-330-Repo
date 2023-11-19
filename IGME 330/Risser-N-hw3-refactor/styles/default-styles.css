@@ -3,18 +3,23 @@ margin: 0;
 padding: 0;
 }
 
-#map {
+/* #map {
 position: absolute;
 top: 0;
 bottom: 0;
-width: 100%;
+width: 50%;
+} */
+
+#map {
+    width: 500px;
+    height: 500px;
 }
 
 .marker {
 background-image: url('../images/coffee-icon.png');
 background-size: cover;
-width: 30px;
-height: 30px;
+width: 100px;
+height: 100px;
 border-radius: 50%;
 cursor: pointer;
 }
@@ -28,7 +33,7 @@ text-align: center;
 font-family: 'Open Sans', sans-serif;
 }
 
-#controls{
+/* #controls{
     position: absolute;
     z-index: 1;
     top: 20px;
@@ -38,9 +43,9 @@ font-family: 'Open Sans', sans-serif;
     background-color: lightgray;
     border: 1px solid black;
     height: auto;
-}
+} */
 
-#controls button{
+/* #controls button{
     font-size: .9em;
     width: 100%;
     background-color: hsl(195, 100%, 50%);
@@ -49,7 +54,7 @@ font-family: 'Open Sans', sans-serif;
 #controls button:hover{
     color:#777;
     background-color: hsl(195, 100%, 60%);
-}
+} */
 
 .poi {
     background-image: url('../images/mapbox-icon.png');

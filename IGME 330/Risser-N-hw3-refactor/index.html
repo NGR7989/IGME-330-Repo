@@ -8,17 +8,82 @@
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
     <link rel="stylesheet" href="./styles/default-styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <script src="https://kit.fontawesome.com/e082271365.js" crossorigin="anonymous"></script>
     <script src="./src/loader.js" type="module"></script>
 </head>
 <body>
+    <nav class="navbar has-shadow is-primary">
+      <div class="navbar-brand">
+        <a class="navbar-item">
+          <!-- <img src="images/mug-hot-solid.svg" alt="site logo" style="max-height: 70px" class="py-5 px-5"> -->
+          <i class="fa-solid fa-mug-hot"></i>
+          
+        </a>
+        <a class="navbar-burger" id="burger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </a>
+      </div>
+      <div class="navbar-menu" id="nav-links">
+        <div class="navbar-end">
+          <a class="navbar-item">About</a>
+          <a class="navbar-item">App</a>
+        </div>
+      </div>
+    </nav>
+    
+    <!-- <div class="section pt-4 pb-0">
+      <nav class="breadcrumb has-arrow-separator">
+        <ul class="container is-size-6">
+          <li><a class="has-text-grey">Coffee Ninja</a></li>
+          <li><a class="has-text-grey">Shop</a></li>
+          <li class="is-active"><a>Docker Dark Roast</a></li>
+        </ul>
+      </nav>
+    </div> -->
 
-<div id='map'></div>
-<div id="controls">
-    <button id="btn1">RIT @ Zoom 15.5</button>
-    <button id="btn2">RIT @ Isometric View</button>
-    <button id="btn3">World @ Zoom 0</button>
-    <button id="btn4">IGM @ Zoom 18</button>
-    <button id="btn5">Load some markers</button>
-</div>
+    <section class="section">
+        <!-- <div class="columns is-centered is-3">
+            <div class="column is-half">
+                <div id="controls">
+                    <button id="btn1" class="button is-white">RIT @ Zoom 15.5</button>
+                    <button id="btn2" class="button is-white">RIT @ Isometric View</button>
+                    <button id="btn3" class="button is-white">World @ Zoom 0</button>
+                    <button id="btn4" class="button is-white">IGM @ Zoom 18</button>
+                    <button id="btn5" class="button is-white">Load some markers</button>
+                </div>
+            </div>
+          </div> -->
+
+
+
+      <div class="columns is-vcentered">
+        <div class="column is-2">
+            <div id="controls">
+                <button id="btn1" class="button is-white">RIT @ Zoom 15.5</button>
+                <button id="btn2" class="button is-white">RIT @ Isometric View</button>
+                <button id="btn3" class="button is-white">World @ Zoom 0</button>
+                <button id="btn4" class="button is-white">IGM @ Zoom 18</button>
+                <button id="btn5" class="button is-white">Load some markers</button>
+            </div>
+        </div>
+
+        <!-- Spacer -->
+        <div class="column is-1"></div>
+
+        <div class="column is-4">
+            <div id='map' class="px-6"></div>
+        </div>
+
+        <div class="column">
+        </div>
+      </div>
+    </section>
+
+
+    
+
 </body>
 </html>
