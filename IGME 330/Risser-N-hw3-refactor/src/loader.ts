@@ -1,4 +1,4 @@
-import * as main from "./main.js";
+import * as main from "./main";
 // load fonts, sounds, whatever ...
 
 // mobile menu
@@ -18,4 +18,3 @@ else
     // Only play when app is loaded
     main.init();
 }
-
