@@ -1,5 +1,14 @@
-import { Feature } from 'geojson';
-import mapboxgl, { MapboxGeoJSONFeature } from 'mapbox-gl';
+// import { Feature } from 'geojson';
+// //import { mapboxgl } from "mapbox-gl"
+// //import mapboxgl from 'mapbox-gl';
+// import * as mapboxgl from 'mapbox-gl';
+// const mutableMapboxgl = mapboxgl as any;
+// Access the accessToken
+
+import * as mapboxgl from 'mapbox-gl';
+
+
+//import * as mapboxgl from "https://api.tiles.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js";
 
 interface GeoJSONFeature {
   type: string;
@@ -28,7 +37,8 @@ let geojson: GeoJSON = {
   
   const initMap = () =>
   {
-    mapboxgl.accessToken = 'pk.eyJ1IjoibmdyNzk4OSIsImEiOiJjbG9xYzdnYzEwZWR1MmlsbmJyZXc5M2o2In0.TbjIRqcD18l6z-07fmJjgg';
+    (mapboxgl as any).accessToken = 'pk.eyJ1IjoibmdyNzk4OSIsImEiOiJjbG9xYzdnYzEwZWR1MmlsbmJyZXc5M2o2In0.TbjIRqcD18l6z-07fmJjgg';
+
     map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/light-v11',

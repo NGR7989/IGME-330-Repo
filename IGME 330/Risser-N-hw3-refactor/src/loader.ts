@@ -13,8 +13,9 @@ if(burgerIcon != null && navbarMenu != null)
         navbarMenu.classList.toggle("is-active");
     })
 }
-else
+
+let file = window.location.pathname.split("/");
+if(file[file.length - 1] != "about.html")
 {
-    // Only play when app is loaded
     main.init();
 }

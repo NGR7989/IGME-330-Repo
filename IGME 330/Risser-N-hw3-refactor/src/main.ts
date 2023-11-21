@@ -69,6 +69,9 @@ const setupUI = () => {
 
 const init = () =>
 {
+  if(map == null)
+    return;
+
   map.initMap();
   map.loadMarkers();
   map.addMarkersToMap();

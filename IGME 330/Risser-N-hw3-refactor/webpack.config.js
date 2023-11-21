@@ -1,23 +1,22 @@
-module.exports = {
-    mode: 'production',
-    entry: ['./src/loader.ts'],
-    output: {
-      filename: './bundle.js'
-    },
+const path = require('path');
 
-    module: {
-      rules: [
-        {
-          test: /\.m?js$/,
-          exclude: /node_modules/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env'],
-            },
-          },
-        },
-      ],
-    }	
-  };
-  
+module.exports = {
+  entry: './src/loader.ts',
+  module: {
+    rules: [
+      {
+        test: [/\.ts?$/,/\.js?$/],
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+    ],
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
+  },
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
+  devtool: 'source-map'
+};

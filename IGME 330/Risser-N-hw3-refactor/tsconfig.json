@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "target": "ES5",
+        "module": "ES6",
+        "sourceMap": true,
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "types": ["mapbox-gl"]
+    },
+
+    "include": ["src/**/*", "src/node_modules/mapBoxHelper.ts"]
+  }
