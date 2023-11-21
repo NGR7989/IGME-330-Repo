@@ -24,6 +24,9 @@ const setupUI = () => {
   const lnglatRIT = [-77.67454147338866, 43.08484339838443];
   const lnglatIGM = [-77.67990589141846, 43.08447511795301];
 
+
+  
+
   // Rit Zoom 15.5 as HTMLButtonElement
   let btn1 = document.getElementById("btn1") as HTMLButtonElement;
   (btn1 as HTMLButtonElement).onclick = () => {
@@ -69,6 +72,9 @@ const setupUI = () => {
 
 const init = () =>
 {
+  
+
+
   if(map == null)
     return;
 
