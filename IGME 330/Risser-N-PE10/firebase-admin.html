@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Firebase Admin</title>
+</head>
+<body>
+<h1>High Scores</h1>
+<ul id="scoresList"><li>No data yet!</li></ul>
+
+<script type="module">
+    /* #1 - The Firebase setup code goes here  - both imports, `firebaseConfig` and `app` */
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyC6K02g8-Lggyi4chxeaGK0ngznudbw3eI",
+        authDomain: "high-scores-d3d1e.firebaseapp.com",
+        projectId: "high-scores-d3d1e",
+        storageBucket: "high-scores-d3d1e.appspot.com",
+        messagingSenderId: "1041354933139",
+        appId: "1:1041354933139:web:381c858575e620b1005e66"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    import { getDatabase, ref, set, push, onValue } from  "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
+
+    console.log(app); // make sure firebase is loaded
+        
+        
+        
+    // #2 NEW STUFF
+    const db = getDatabase();
+    const scoresRef = ref(db, 'scores2');
+
+    const scoresChanged = (snapshot) => {
+
+        let text = "";
+        snapshot.forEach(score => {
+        const childKey = score.key;
+        const childData = score.val();
+        console.log(childKey,childData);
+
+        text += `<li> ${childKey} - ${childData.game} - ${childData.score} </li>`;
+        });
+
+        scoresList.innerHTML = text;
+
+    }
+
+    onValue(scoresRef,scoresChanged);
+
+
+    const madmaxChanged = (data) => {
+    let obj = data.val();
+    console.log("scores2/ - madmaxChanged", obj);
+    console.log("game = ", obj.game);
+    console.log("score = ", obj.score);
+    };
+
+    const scoresRef2 = ref(db, 'scores2/MADMAX');
+    onValue(scoresRef2,madmaxChanged);
+	
+</script>
+</body>
+</html>
