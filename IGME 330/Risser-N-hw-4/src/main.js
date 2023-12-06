@@ -8,6 +8,8 @@ const lnglatUSA = [-98.5696, 39.8282];
 let geojson;
 let favoriteIds = ["p20","p79","p180","p43"];
 
+let currentFeature;
+
 const createFavoriteElement = (id) => {
 	const feature = getFeatureById(id);
 	const a = document.createElement("a");
@@ -58,6 +60,29 @@ const setupUI = () => {
 		map.flyTo(lnglatUSA);
 	}
 
+	// Favorite
+	document.querySelector("#btn4").onclick = () => {
+		if(currentFeature == undefined || favoriteIds.includes(currentFeature.id))
+			return;
+
+		favoriteIds.push(currentFeature.id);
+
+		refreshFavorites();
+		console.log(favoriteIds);
+	}
+
+	// Unfavorite 
+	document.querySelector("#btn5").onclick = () => {
+		if(currentFeature == undefined  || !favoriteIds.includes(currentFeature.id))
+			return;
+
+		let index = favoriteIds.indexOf(currentFeature.id);
+		favoriteIds = favoriteIds.slice(0, index).concat(favoriteIds.slice(index + 1));
+
+		refreshFavorites();
+		console.log(favoriteIds);
+	}
+
 	refreshFavorites();
 }
 
@@ -70,14 +95,14 @@ const getFeatureById = (id) => {
 
 const showFeatureDetails = (id) => {
 	console.log(`showFeatureDetails - id=${id}`);
-	const feature = getFeatureById(id);
-	document.querySelector("#details-1").innerHTML = `Info for ${feature.properties.title}`;	
+	currentFeature = getFeatureById(id);
+	document.querySelector("#details-1").innerHTML = `Info for ${currentFeature.properties.title}`;	
 	document.querySelector("#details-2").innerHTML = 
-	`<p>Address: ${feature.properties.address}<p>
-	<p>Phone: ${feature.properties.phone}<p>
-	<p>Website: ${feature.properties.url}<p>`;
+	`<p>Address: ${currentFeature.properties.address}<p>
+	<p>Phone: ${currentFeature.properties.phone}<p>
+	<p>Website: ${currentFeature.properties.url}<p>`;
 	
-	document.querySelector("#details-3").innerHTML = `Info for ${feature.properties.description}`;	
+	document.querySelector("#details-3").innerHTML = `Info for ${currentFeature.properties.description}`;	
 
 };
 
