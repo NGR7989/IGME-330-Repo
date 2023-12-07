@@ -1,6 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import { getDatabase, ref, set, push, onValue } from  "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
-
+import { getDatabase, ref, set, push, onValue, increment } from  "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -13,12 +12,19 @@ const firebaseConfig = {
 };
 
 
-const writeUserData = (userId, favorites) => {
+const writeUserDataInc = (locationID, favorite) => {
     const db = getDatabase();
-    set(ref(db, "users/" + userId), {
-        favorites: favorites
+    set(ref(db, `users/ ${locationID}/${favorite}`), {
+        likes: increment(1)
     });
-    }
+}
+
+const writeUserDataDec = (locationID, favorite) => {
+    const db = getDatabase();
+    set(ref(db, `users/ ${locationID}/${favorite}`), {
+        likes: increment(-1)
+    });
+}
     
 const writeHighScoreData2 = (userId, game, score) => {
     const db = getDatabase();
@@ -50,4 +56,4 @@ const SetUpFireBase = () =>
 }
 
 
-export {SetUpFireBase, writeUserData};
+export {SetUpFireBase, writeUserDataInc, writeUserDataDec};

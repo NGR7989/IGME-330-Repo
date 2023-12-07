@@ -13,7 +13,7 @@ let favoriteIds = [];
 let currentFeature;
 
 const getUserId = () => {
-	return document.querySelector("#id").value;
+	return "TestHW4";
 }
 
 const createFavoriteElement = (id) => {
@@ -72,7 +72,7 @@ const setupUI = () => {
 			return;
 
 		favoriteIds.push(currentFeature.id);
-		fire.writeUserData(getUserId(), favoriteIds);
+		fire.writeUserDataInc("favorites", currentFeature.id);
 		local.writeToLocalStorage(getUserId(), favoriteIds);
 
 		refreshFavorites();
@@ -89,7 +89,7 @@ const setupUI = () => {
 		let index = favoriteIds.indexOf(currentFeature.id);
 		favoriteIds = favoriteIds.slice(0, index).concat(favoriteIds.slice(index + 1));
 
-		fire.writeUserData(getUserId(), favoriteIds);
+		fire.writeUserDataDec("favorites", currentFeature.id);
 		local.writeToLocalStorage(getUserId(), favoriteIds);
 
 		refreshFavorites();
