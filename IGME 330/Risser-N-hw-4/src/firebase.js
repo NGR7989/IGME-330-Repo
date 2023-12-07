@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import { getDatabase, ref, set, push, onValue, increment } from  "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
+import { getDatabase, ref, set, get, push, onValue, increment } from  "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -12,48 +12,32 @@ const firebaseConfig = {
 };
 
 
-const writeUserDataInc = (locationID, favorite) => {
-    const db = getDatabase();
-    set(ref(db, `users/ ${locationID}/${favorite}`), {
+const writeUserDataInc = (favorite) => {
+    set(ref(db, `park-favorites/${favorite}`), {
         likes: increment(1)
     });
 }
 
-const writeUserDataDec = (locationID, favorite) => {
-    const db = getDatabase();
-    set(ref(db, `users/ ${locationID}/${favorite}`), {
+const writeUserDataDec = ( favorite) => {
+    set(ref(db, `park-favorites/${favorite}`), {
         likes: increment(-1)
     });
 }
-    
-const writeHighScoreData2 = (userId, game, score) => {
-    const db = getDatabase();
-    set(ref(db, 'scores2/' + userId), {
-    game,
-    score
-    });
-};
+
+const readUserData = (locationID) => {
+    //return get(ref(db, `users/ ${locationID}`));
+}
 	
-
-
 const SetUpFireBase = () =>
 {
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);	
-
     console.log(app); // make sure firebase is loaded
 
-    let score = 0;
-        
-    // clickMeButton.onclick = _ => {
-    // score++;
-    // scoreElement.innerText = score;
-    // };
 
-    // saveScoreButton.onclick = _ => {
-    //     writeHighScoreData2(nameField.value,"Clicktastic",score);
-    // };
 }
 
+SetUpFireBase();
+const db = getDatabase();
 
-export {SetUpFireBase, writeUserDataInc, writeUserDataDec};
+export {SetUpFireBase, writeUserDataInc, writeUserDataDec, readUserData, onValue, ref, db};
