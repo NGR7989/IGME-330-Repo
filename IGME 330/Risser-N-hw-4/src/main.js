@@ -1,12 +1,14 @@
 import * as map from "./map.js";
 import * as ajax from "./ajax.js";
+import * as fire from "./firebase.js";
+import * as local from "./local.js";
 
 // I. Variables & constants
 // NB - it's easy to get [longitude,latitude] coordinates with this tool: http://geojson.io/
 const lnglatNYS = [-75.71615970715911, 43.025810763917775];
 const lnglatUSA = [-98.5696, 39.8282];
 let geojson;
-let favoriteIds = ["p20","p79","p180","p43"];
+let favoriteIds = [];
 
 let currentFeature;
 
@@ -66,9 +68,14 @@ const setupUI = () => {
 			return;
 
 		favoriteIds.push(currentFeature.id);
+		fire.writeUserData("TestHW4", favoriteIds);
+		local.writeToLocalStorage("TestHW4", favoriteIds);
 
 		refreshFavorites();
 		console.log(favoriteIds);
+		document.querySelector("#btn4").disabled = true;
+		document.querySelector("#btn5").disabled = false;
+		
 	}
 
 	// Unfavorite 
@@ -79,8 +86,14 @@ const setupUI = () => {
 		let index = favoriteIds.indexOf(currentFeature.id);
 		favoriteIds = favoriteIds.slice(0, index).concat(favoriteIds.slice(index + 1));
 
+		fire.writeUserData("TestHW4", favoriteIds);
+		local.writeToLocalStorage("TestHW4", favoriteIds);
+
 		refreshFavorites();
 		console.log(favoriteIds);
+
+		document.querySelector("#btn4").disabled = false;
+		document.querySelector("#btn5").disabled = true;
 	}
 
 	refreshFavorites();
@@ -90,7 +103,6 @@ const setupUI = () => {
 
 const getFeatureById = (id) => {
 	return geojson.features.find( (element) => element.id == id );
-
 }
 
 const showFeatureDetails = (id) => {
@@ -104,6 +116,17 @@ const showFeatureDetails = (id) => {
 	
 	document.querySelector("#details-3").innerHTML = `Info for ${currentFeature.properties.description}`;	
 
+	// Update ui
+	if(favoriteIds.includes(currentFeature.id))
+	{
+		document.querySelector("#btn4").disabled = true;
+		document.querySelector("#btn5").disabled = false;
+	}
+	else
+	{
+		document.querySelector("#btn4").disabled = false;
+		document.querySelector("#btn5").disabled = true;
+	}
 };
 
 const init = () => {
@@ -112,12 +135,16 @@ const init = () => {
 	map.initMap(lnglatNYS);
 	ajax.downloadFile("data/parks.geojson", (str) =>{
 		geojson = JSON.parse(str);
-		console.log(geojson);
 
 		map.addMarkersToMap(geojson, showFeatureDetails);
-		setupUI();
-	})
 
+
+		favoriteIds = local.readFromLocalStorage("TestHW4");
+		if(!Array.isArray(favoriteIds)) favoriteIds = [];
+
+		setupUI();
+		fire.SetUpFireBase();
+	})
 };
 
 init();
