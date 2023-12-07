@@ -1,13 +1,18 @@
 // a private (to this module) unique name to store the app data under
 // if you put this on banjo, change `abc1234` to your banjo account name
-const storeName = "TestHW4";
+//const storeName = "TestHW4";
+
+const getUserId = () => {
+  return "TestHW4";
+	//return document.querySelector("#id").value;
+}
 
 // a private (to this module) helper function
 // it will load in a string from localStorage and convert it to a JSON object
 // if the string is empty or otherwise not "parseable" an
 // empty object - {} - will be returned
 const loadJSONFromLocalStorage = () => {
-  const string = localStorage.getItem(storeName);
+  const string = localStorage.getItem(getUserId());
   let json;
   try{
     json = JSON.parse(string);
@@ -24,7 +29,7 @@ export const writeToLocalStorage = (key, value) => {
   console.log(`Calling writeToLocalStorage(${key},${value})`);
   const json = loadJSONFromLocalStorage();
   json[key] = value;
-  localStorage.setItem(storeName, JSON.stringify(json));
+  localStorage.setItem(getUserId(), JSON.stringify(json));
 };
 
 // the value of `key` will be returned from localStorage

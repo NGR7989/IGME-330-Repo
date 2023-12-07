@@ -12,6 +12,10 @@ let favoriteIds = [];
 
 let currentFeature;
 
+const getUserId = () => {
+	return document.querySelector("#id").value;
+}
+
 const createFavoriteElement = (id) => {
 	const feature = getFeatureById(id);
 	const a = document.createElement("a");
@@ -68,11 +72,10 @@ const setupUI = () => {
 			return;
 
 		favoriteIds.push(currentFeature.id);
-		fire.writeUserData("TestHW4", favoriteIds);
-		local.writeToLocalStorage("TestHW4", favoriteIds);
+		fire.writeUserData(getUserId(), favoriteIds);
+		local.writeToLocalStorage(getUserId(), favoriteIds);
 
 		refreshFavorites();
-		console.log(favoriteIds);
 		document.querySelector("#btn4").disabled = true;
 		document.querySelector("#btn5").disabled = false;
 		
@@ -86,11 +89,10 @@ const setupUI = () => {
 		let index = favoriteIds.indexOf(currentFeature.id);
 		favoriteIds = favoriteIds.slice(0, index).concat(favoriteIds.slice(index + 1));
 
-		fire.writeUserData("TestHW4", favoriteIds);
-		local.writeToLocalStorage("TestHW4", favoriteIds);
+		fire.writeUserData(getUserId(), favoriteIds);
+		local.writeToLocalStorage(getUserId(), favoriteIds);
 
 		refreshFavorites();
-		console.log(favoriteIds);
 
 		document.querySelector("#btn4").disabled = false;
 		document.querySelector("#btn5").disabled = true;
@@ -139,7 +141,7 @@ const init = () => {
 		map.addMarkersToMap(geojson, showFeatureDetails);
 
 
-		favoriteIds = local.readFromLocalStorage("TestHW4");
+		favoriteIds = local.readFromLocalStorage(getUserId());
 		if(!Array.isArray(favoriteIds)) favoriteIds = [];
 
 		setupUI();
