@@ -72,7 +72,7 @@ const setupUI = () => {
 			return;
 
 		favoriteIds.push(currentFeature.id);
-		fire.writeUserDataInc(currentFeature.id);
+		fire.writeUserDataInc(currentFeature.properties.title);
 		local.writeToLocalStorage(getUserId(), favoriteIds);
 
 		refreshFavorites();
@@ -89,7 +89,7 @@ const setupUI = () => {
 		let index = favoriteIds.indexOf(currentFeature.id);
 		favoriteIds = favoriteIds.slice(0, index).concat(favoriteIds.slice(index + 1));
 
-		fire.writeUserDataDec(currentFeature.id);
+		fire.writeUserDataDec(currentFeature.properties.title);
 		local.writeToLocalStorage(getUserId(), favoriteIds);
 
 		refreshFavorites();
